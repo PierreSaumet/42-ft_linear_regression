@@ -38,6 +38,17 @@ def ft_exit(err_nbr):
 		print("Error\n")
 		exit()
 
+def is_number(data):
+	# print(all([isinstance(item, int) for item in data]))
+	if all([isinstance(item, int) for item in data]) == False:
+		ft_exit(1)
+	# for i in range(len(data)):
+	# 	print(data[i], i, type(data[i]))
+	# 	for y in range(data[i].size()):
+	# 		print(data[i][y])
+	# 		# if data[i][y].isalpha():
+	# 		# 	print("OUI {}".format(data[i]))
+
 def	get_data():
 	# Check if the file exist
 	if exists("data.csv") == False:
@@ -46,7 +57,12 @@ def	get_data():
 	if os.stat("data.csv").st_size == 0:
 		ft_exit(1)
 	# Get a Dataframe from data.csv
-	dataFrame = pd.read_csv("data.csv")
+	try:
+		dataFrame = pd.read_csv("data.csv")
+	except:
+		ft_exit(1)
+	else:
+		print("ok")
 	# Check nbr of columns
 	if len(dataFrame.columns) != 2:
 		ft_exit(1)
@@ -55,8 +71,13 @@ def	get_data():
 	Y = dataFrame.iloc[0:len(dataFrame), 1]
 	if len(X) != len(Y):
 		ft_exit(1)
-	else:
-		return [X, Y]
+	# Check if it contains only numbers and comma
+	is_number(X)
+	is_number(Y)
+	# for i in range(X)
+	# else:
+	# 	return [X, Y]
+	return [X, Y]
 
 def normalize_item(item, datas):
 	return (item - datas.min()) / (datas.max() - datas.min())
@@ -111,35 +132,35 @@ def ft_gradiant_descent(X, Y, M):
 
 if __name__ == "__main__":
 	[X_old, Y_old] = get_data()
-	[X, Y] = normalize_datas(X_old, Y_old)
-	print("Result = {}".format([X, Y]))
-	print(type([X, Y]))
+	# [X, Y] = normalize_datas(X_old, Y_old)
+	# print("Result = {}".format([X, Y]))
+	# print(type([X, Y]))
 
-	[final_theta_0, final_theta_1] = ft_gradiant_descent(X, Y, len(X))
-	print("After {0} iterations theta_0 = {1}, theta_1 = {2}".format(nombre_iterations, final_theta_0, final_theta_1))
+	# [final_theta_0, final_theta_1] = ft_gradiant_descent(X, Y, len(X))
+	# print("After {0} iterations theta_0 = {1}, theta_1 = {2}".format(nombre_iterations, final_theta_0, final_theta_1))
 
 
-	stopping_threshold = 1e-6
-	print(stopping_threshold)
-	xx = []
-	yy = []
+	# stopping_threshold = 1e-6
+	# print(stopping_threshold)
+	# xx = []
+	# yy = []
 
-	for i in range(len(COST_RECORDER)):
-		xx.append(i)
-		yy.append(COST_RECORDER[i])
+	# for i in range(len(COST_RECORDER)):
+	# 	xx.append(i)
+	# 	yy.append(COST_RECORDER[i])
 	
-	axes = plt.axes()
-	axes.grid()
-	plt.figure(1)
-	plt.xlabel('Nombre d\'iterations')
-	plt.ylabel('Cout d\'erreur global')
-	plt.scatter(xx,yy)
-	plt.figure(2)
-	plt.plot(X_old, Y_old, 'bo')
-	plt.xlabel('Mileage')
-	plt.ylabel('Price')
-	# print("Cost recorder = {}".format(COST_RECORDER))
-	plt.show()
+	# axes = plt.axes()
+	# axes.grid()
+	# plt.figure(1)
+	# plt.xlabel('Nombre d\'iterations')
+	# plt.ylabel('Cout d\'erreur global')
+	# plt.scatter(xx,yy)
+	# plt.figure(2)
+	# plt.plot(X_old, Y_old, 'bo')
+	# plt.xlabel('Mileage')
+	# plt.ylabel('Price')
+	# # print("Cost recorder = {}".format(COST_RECORDER))
+	# plt.show()
 
 
 """
